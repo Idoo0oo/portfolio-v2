@@ -1,0 +1,253 @@
+export const projects = [
+  {
+    id: 1,
+    title: "Digital Library System",
+    category: "Web App",
+    isStarred: true,
+    date: "2026-03-20",
+    description: "Full-stack library management system built for the national Competency Skills Exam (UKK). Features a student portal, admin dashboard, automated fine calculation, role-based access, and real-time book availability tracking.",
+    tech: ["React", "Vite", "Express.js", "MySQL", "TailwindCSS"],
+    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=800",
+    github: "https://github.com/Idoo0oo/ukk-perpustakaan",
+    demo: ""
+  },
+  {
+    id: 2,
+    title: "GadingPro Property Portal",
+    category: "Web App",
+    isStarred: false,
+    date: "2026-01-15",
+    description: "Full-stack property management portal built during my internship at GadingPro. Includes property listings, an admin CMS, and dynamic marketing page generation for high-impact property campaigns.",
+    tech: ["React", "Node.js", "Express", "Vercel"],
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800",
+    github: "https://github.com/Idoo0oo/gadingpro-fullstack"
+  },
+  {
+    id: 3,
+    title: "Bluetooth Relay App",
+    category: "Mobile App",
+    isStarred: true,
+    date: "2025-11-10",
+    description: "A real-time Bluetooth relay application that enables seamless device-to-device communication and remote relay control via the Web Bluetooth API. Built for low-latency IoT control scenarios.",
+    tech: ["JavaScript", "Web Bluetooth API", "Node.js", "WebSocket"],
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+    github: "https://github.com/Idoo0oo/bluetooth-relay",
+    demo: ""
+  },
+  {
+    id: 4,
+    title: "QR Event Attendance",
+    category: "Web App",
+    isStarred: false,
+    date: "2025-09-05",
+    description: "A QR code-based event check-in and attendance tracking app. Attendees scan to instantly check in, with a real-time admin dashboard displaying live attendance logs and event stats.",
+    tech: ["Vue.js", "QR Code", "JavaScript", "Vite"],
+    image: "https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?auto=format&fit=crop&q=80&w=800",
+    github: "https://github.com/Idoo0oo/qr-event-app",
+    demo: ""
+  },
+  {
+    id: 5,
+    title: "macOS Portfolio",
+    category: "Web App",
+    isStarred: true,
+    date: "2026-03-21",
+    description: "This very portfolio — an interactive macOS-themed OS experience with physics-based animations, a Rapier-powered 3D lanyard, WebGL particle systems, and cinematic sound design. Built to push the limits of the browser.",
+    tech: ["React", "Three.js", "R3F", "Rapier", "TypeScript"],
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&q=80&w=800",
+    github: "https://github.com/Idoo0oo/portfolio",
+    demo: ""
+  },
+  {
+    id: 6,
+    title: "Valentine Gift",
+    category: "Web App",
+    isStarred: false,
+    date: "2025-02-14",
+    description: "A custom interactive Valentine's Day web gift — an emotionally-driven user journey built with custom animations, music integration, and cinematic visual effects. A personal creative experiment in web storytelling.",
+    tech: ["JavaScript", "CSS Animations", "Framer Motion"],
+    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=800",
+    github: "https://github.com/Idoo0oo/valentine-gift",
+    demo: "https://valentinegift-bydittskiee.vercel.app/"
+  },
+  {
+    id: 7,
+    title: "Company Profile DML",
+    category: "Web App",
+    isStarred: true,
+    date: "2026-06-17",
+    description: "Modern company profile website built with Next.js 16 and Tailwind v4, featuring Framer Motion for cinematic animations and highly responsive layout.",
+    tech: ["Next.js", "React 19", "Tailwind CSS", "Framer Motion"],
+    image: "/company-profile-dml.png",
+    github: "",
+    demo: "https://divamutiaralogistik.com/"
+  },
+  {
+    id: 8,
+    title: "DML Logistics ERP",
+    category: "Web App",
+    isStarred: true,
+    date: "2026-06-15",
+    description: "A full-stack Enterprise Resource Planning (ERP) application for a logistics company. Includes robust backend API, real-time analytics with Recharts, PDF/Excel reporting, and secure JWT authentication.",
+    tech: ["React", "Express.js", "Sequelize", "Tailwind CSS", "MySQL"],
+    image: "/dml-erp.png",
+    github: "",
+    demo: ""
+  },
+  {
+    id: 9,
+    title: "Restaurant Ordering System",
+    category: "Web App",
+    isStarred: true,
+    date: "2026-06-10",
+    description: "A real-time restaurant ordering and management system. Features QR code-based menu access, real-time order updates via Socket.io, Vue 3 reactivity on the frontend, and a PostgreSQL-backed Express.js API.",
+    tech: ["Vue.js", "Express.js", "PostgreSQL", "Socket.io", "Tailwind CSS"],
+    image: "/restaurant-ordering.png",
+    github: "",
+    demo: "https://caffee-tongkrongan.vercel.app/order"
+  }
+];
+
+export const experience = [
+  {
+    id: 1,
+    date: "2026 - Present",
+    company: "UKK Project",
+    title: "Digital Library System",
+    role: "Full-stack Developer",
+    description: "Building a comprehensive digital library system as the main project for the Competency Skills Examination (UKK).",
+    bullets: [
+      "Designed and implemented a full-stack library management system from scratch.",
+      "Integrated secure user authentication and book lending tracking.",
+      "Optimized database queries for fast search and filtering of thousands of records.",
+      "Used React, Node.js, and PostgreSQL for a robust, scalable architecture."
+    ]
+  },
+  {
+    id: 2,
+    date: "January 2026",
+    company: "GadingPro",
+    title: "Property Agency Internship",
+    role: "Creative Design Intern",
+    description: "Completed an internship at GadingPro property agency, focusing on creative marketing and web solutions.",
+    bullets: [
+      "Collaborated with the marketing team to design high-impact property listings.",
+      "Assisted in maintaining and updating the company's property management portal.",
+      "Developed creative assets for social media campaigns using modern design tools.",
+      "Gained hands-on experience in a fast-paced corporate environment."
+    ]
+  },
+  {
+    id: 3,
+    date: "December 2025",
+    company: "The Apology Project",
+    title: "Interactive Web Experience",
+    role: "Creative Developer",
+    description: "Built a custom, highly interactive web application from scratch for a personal milestone.",
+    bullets: [
+      "Engineered an emotionally-driven user journey with custom animations and music integration.",
+      "Utilized Framer Motion and Three.js for cinematic visual effects.",
+      "Implemented a responsive, mobile-first design for cross-device compatibility.",
+      "Achieved 100% lighthouse performance scores for a lightweight, fast-loading experience."
+    ]
+  }
+];
+
+export const education = [
+  {
+    id: 1,
+    institution: "SMKN 4 Kota Tangerang",
+    major: "Rekayasa Perangkat Lunak (RPL)",
+    period: "2023 - 2026",
+    status: "Lulus",
+    description: "Jurusan Rekayasa Perangkat Lunak dengan fokus pada web development, mobile development, dan software engineering.",
+    achievements: [
+      "Proyek UKK: Digital Library System (Full-stack)",
+      "Internship di GadingPro sebagai Creative Design Intern",
+      "Membangun portfolio interaktif dengan Three.js & React"
+    ]
+  }
+];
+
+export interface Certificate {
+  id: number;
+  title: string;
+  issuer: string;
+  date: string;
+  image?: string;
+  file?: string;
+  type: 'competency' | 'language' | 'internship' | 'education';
+  credentialId?: string;
+  description?: string;
+}
+
+export const certificates: Certificate[] = [
+  {
+    id: 1,
+    title: "Sertifikat Kompetensi Keahlian RPL",
+    issuer: "Badan Nasional Sertifikasi Profesi (BNSP) / LSP",
+    date: "2026",
+    file: "/certificates/Sertifikat Kompetensi RPL.pdf",
+    type: "competency",
+    credentialId: "BNSP-LSP-RPL-2026",
+    description: "Sertifikasi resmi kompetensi keahlian Rekayasa Perangkat Lunak (Software Engineering) berstandar nasional BNSP."
+  },
+  {
+    id: 2,
+    title: "Sertifikat TOEIC (English Proficiency)",
+    issuer: "ETS / International Test Center (ITC)",
+    date: "2025",
+    file: "/certificates/Sertifikat TOEIC.pdf",
+    type: "language",
+    credentialId: "TOEIC-OFFICIAL-SCORE",
+    description: "Sertifikasi resmi kemampuan bahasa Inggris internasional Test of English for International Communication (TOEIC)."
+  },
+  {
+    id: 3,
+    title: "Sertifikat Praktek Kerja Lapangan (PKL)",
+    issuer: "GadingPro Property",
+    date: "Januari 2026",
+    type: "internship",
+    credentialId: "GP-PKL-2026",
+    description: "Sertifikat penyelesaian program magang profesional sebagai Creative Design & Web Intern di GadingPro Property."
+  },
+  {
+    id: 4,
+    title: "Surat Keterangan Lulus (SKL)",
+    issuer: "SMKN 4 Kota Tangerang",
+    date: "2026",
+    type: "education",
+    credentialId: "SMKN4-RPL-2026",
+    description: "Surat Keterangan Kelulusan resmi jurusan Rekayasa Perangkat Lunak SMKN 4 Kota Tangerang."
+  }
+];
+
+export const testimonials = [
+  {
+    id: 1,
+    name: "Pak Ahmad Fauzi",
+    role: "Guru Pembimbing RPL",
+    company: "SMKN 4 Kota Tangerang",
+    avatar: null,
+    text: "Muhammad Ditto menunjukkan dedikasi dan kemampuan teknis yang luar biasa. Proyek-proyek yang dihasilkan selalu melampaui ekspektasi, terutama dalam hal UI/UX dan clean code.",
+    rating: 5
+  },
+  {
+    id: 2,
+    name: "Sarah Wijaya",
+    role: "HR Manager",
+    company: "GadingPro Property",
+    avatar: null,
+    text: "Selama PKL di GadingPro, Ditto dengan cepat beradaptasi dan memberikan kontribusi nyata. Kemampuan desain dan development-nya sangat impresif untuk level SMK.",
+    rating: 5
+  },
+  {
+    id: 3,
+    name: "Rizky Pratama",
+    role: "Team Lead",
+    company: "Collaborator",
+    avatar: null,
+    text: "Kerja bareng Ditto selalu menyenangkan. Dia paham alur kerja tim, Git workflow, dan selalu push kualitas code ke level tertinggi. Recommended!",
+    rating: 5
+  }
+];

@@ -1,0 +1,444 @@
+'use client';
+
+/* aria-label */
+import { useOSStore } from '../../core/store/useOSStore';
+import { Github, Linkedin, Mail, Instagram, ArrowUpRight, Briefcase, CheckCircle, QrCode, Copy, UserRound, Download, Image, GraduationCap, Award, Star, Quote, FileCheck } from 'lucide-react';
+import { cn, triggerHaptic } from '../../core/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
+import { experience, education, certificates, testimonials } from '../../core/lib/data';
+import MobileGallery from './MobileGallery';
+import { BrandIcons } from '../os/BrandIcons';
+
+const socialLinks = [
+  { icon: Github,    href: 'https://github.com/Idoo0oo',               label: 'GitHub',    color: 'text-white bg-zinc-800' },
+  { icon: Linkedin,  href: 'https://linkedin.com/in/muhammad-ditto',   label: 'LinkedIn',  color: 'text-white bg-blue-600' },
+  { icon: Instagram, href: 'https://instagram.com/mhmmdittoo._',      label: 'Instagram', color: 'text-white bg-pink-600' },
+  { icon: Mail,      href: 'mailto:dittosanzz05@gmail.com',             label: 'Email',     color: 'text-white bg-red-500' },
+];
+
+const skills = [
+  { name: 'React', icon: BrandIcons.React, color: 'text-blue-400' },
+  { name: 'TypeScript', icon: BrandIcons.TypeScript, color: 'text-blue-600' },
+  { name: 'Node.js', icon: BrandIcons.Nodejs, color: 'text-green-500' },
+  { name: 'Three.js', icon: BrandIcons.Threejs, color: 'text-white' },
+  { name: 'Tailwind', icon: BrandIcons.Tailwind, color: 'text-cyan-400' },
+  { name: 'Laravel', icon: BrandIcons.Laravel, color: 'text-red-500' },
+  { name: 'PHP', icon: BrandIcons.PHP, color: 'text-indigo-400' },
+  { name: 'Python', icon: BrandIcons.Python, color: 'text-yellow-400' },
+  { name: 'Javascript', icon: BrandIcons.Javascript, color: 'text-yellow-300' },
+  { name: 'Vue.js', icon: BrandIcons.Vue, color: 'text-emerald-500' },
+  { name: 'MySQL', icon: BrandIcons.MySQL, color: 'text-blue-500' },
+  { name: 'PostgreSQL', icon: BrandIcons.PostgreSQL, color: 'text-blue-400' },
+  { name: 'Express', icon: BrandIcons.Express, color: 'text-gray-400' },
+  { name: 'Bootstrap', icon: BrandIcons.Bootstrap, color: 'text-teal-500' },
+  { name: 'Framer Motion', icon: BrandIcons.FramerMotion, color: 'text-pink-500' },
+  { name: 'Figma', icon: BrandIcons.Figma, color: 'text-orange-400' },
+  { name: 'Git', icon: BrandIcons.Git, color: 'text-orange-600' },
+  { name: 'GitHub', icon: Github, color: 'text-white' },
+];
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 14 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
+
+export default function MobileProfile() {
+  const { isDarkMode } = useOSStore();
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => { setIsMounted(true); }, []);
+
+  const pageBg     = useMemo(() => cn('transition-colors duration-500', isDarkMode ? 'bg-[#0a0a0a]' : 'bg-[#f5f5f5]'), [isDarkMode]);
+  const cardBg     = useMemo(() => cn('transition-all duration-500', isDarkMode ? 'bg-[#1a1a1a] border-white/10' : 'bg-white border-black/8'), [isDarkMode]);
+  const titleColor = useMemo(() => cn('transition-colors duration-500', isDarkMode ? 'text-white' : 'text-zinc-900'), [isDarkMode]);
+  const subColor   = useMemo(() => cn('transition-colors duration-500', isDarkMode ? 'text-white/45' : 'text-zinc-500'), [isDarkMode]);
+  const bodyColor  = useMemo(() => cn('transition-colors duration-500', isDarkMode ? 'text-white/70' : 'text-zinc-600'), [isDarkMode]);
+
+  // Card State
+  const [showQR, setShowQR] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
+
+  const handleCopy = async () => {
+    const textToCopy = 'https://mhmmditto.vercel.app';
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(textToCopy);
+      } else {
+        // Fallback for non-secure contexts (HTTP local testing on mobile)
+        const textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        
+        // Prevent virtual keyboard from appearing on mobile devices
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+        
+        document.body.appendChild(textArea);
+        textArea.select();
+        textArea.setSelectionRange(0, 99999); // iOS compat
+        
+        document.execCommand('copy');
+        textArea.remove();
+      }
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    } finally {
+      // Trigger UI reaction regardless
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    }
+  };
+
+  return (
+    <div className={cn('w-full h-full overflow-y-auto no-scrollbar pt-16 pb-32', pageBg)}>
+      <motion.div
+        className="px-6 space-y-6"
+        variants={stagger}
+        initial="hidden"
+        animate="show"
+      >
+        {/* Profile Title */}
+        <motion.div variants={fadeUp} className="flex justify-between w-full items-center mb-2 px-2">
+          <h1 className={cn('text-2xl font-black tracking-tight', titleColor)}>Profile</h1>
+        </motion.div>
+
+        {/* 3D Flip Card & Actions */}
+        <motion.div variants={fadeUp} className="w-full relative px-2 mb-8" style={{ perspective: 1200 }}>
+          <motion.div
+            animate={{ rotateY: showQR ? 180 : 0 }}
+            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+            className="relative w-full aspect-[4/5] max-w-[300px] mx-auto rounded-3xl"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* Front (Photo) */}
+            <div 
+              className="absolute inset-0 w-full h-full rounded-3xl overflow-hidden shadow-2xl bg-[#0a0a0a]"
+              style={{ backfaceVisibility: 'hidden', border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)' }}
+            >
+              <img src="/github-avatar.jpg" alt="Profile" className="w-full h-full object-cover opacity-90" />
+              <div 
+                className={cn(
+                  "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none transition-opacity duration-300",
+                  showQR ? "opacity-0" : "opacity-100"
+                )} 
+              />
+              <div 
+                className={cn(
+                  "absolute bottom-5 left-5 right-5 text-white z-10 pointer-events-none transition-opacity duration-300",
+                  showQR ? "opacity-0" : "opacity-100"
+                )}
+              >
+                <h2 className="text-xl font-black drop-shadow-md">Muhammad Ditto</h2>
+                <p className="text-[13px] font-medium text-white/80 drop-shadow-sm mt-0.5">Full-stack Developer</p>
+              </div>
+            </div>
+
+            {/* Back (QR Code) */}
+            <div 
+              className={cn("absolute inset-0 w-full h-full rounded-3xl border shadow-2xl flex flex-col items-center justify-center p-6", isDarkMode ? "bg-[#111] border-white/10" : "bg-white border-black/10")}
+              style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+            >
+              <h3 className={cn("text-lg font-black mb-5 tracking-tight", titleColor)}>Connect via Link</h3>
+              <div className="w-44 h-44 bg-white rounded-2xl p-2 shadow-inner border border-zinc-200">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://mhmmditto.vercel.app&color=000000&bgcolor=ffffff" alt="QR Code" className="w-full h-full rounded-xl mix-blend-multiply" />
+              </div>
+              <p className={cn("text-[10px] font-extrabold uppercase tracking-widest mt-6", subColor)}>Scan to Visit</p>
+            </div>
+          </motion.div>
+
+          {/* Action Buttons (Bento Grid) */}
+          <div className="grid grid-cols-2 gap-3 mt-8">
+            <button 
+              onClick={() => {
+                triggerHaptic();
+                setShowQR(!showQR);
+              }}
+              className={cn(
+                "flex flex-col items-center justify-center gap-2.5 aspect-[5/3] rounded-[20px] shadow-sm transition-all active:scale-95 border",
+                isDarkMode ? "bg-[#222] text-white border-white/10" : "bg-white text-zinc-900 border-black/10"
+              )}
+            >
+              {showQR ? <UserRound size={22} className="opacity-80" /> : <QrCode size={22} className="opacity-80" />}
+              <span className="text-[11px] font-bold tracking-wide">{showQR ? "Profile" : "Show QR"}</span>
+            </button>
+            
+            <button 
+              onClick={() => {
+                triggerHaptic();
+                handleCopy();
+              }}
+              className={cn(
+                "flex flex-col items-center justify-center gap-2.5 aspect-[5/3] rounded-[20px] shadow-sm transition-all active:scale-95 border",
+                isDarkMode ? "bg-white text-black border-transparent" : "bg-zinc-900 text-white border-transparent"
+              )}
+            >
+              {isCopied ? <CheckCircle size={22} className="text-emerald-500" /> : <Copy size={22} className="opacity-90" />}
+              <span className="text-[11px] font-bold tracking-wide">{isCopied ? "Copied!" : "Copy Link"}</span>
+            </button>
+            
+            <a 
+              href="/cv-muhammad-ditto.pdf"
+              download="CV-Muhammad-Ditto.pdf"
+              onClick={() => triggerHaptic()}
+              className={cn(
+                "flex flex-col items-center justify-center gap-2.5 aspect-[5/3] rounded-[20px] shadow-sm transition-all active:scale-95 border",
+                isDarkMode ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-emerald-50 text-emerald-600 border-emerald-500/20"
+              )}
+            >
+              <Download size={22} className="opacity-90" />
+              <span className="text-[11px] font-bold tracking-wide">Get CV</span>
+            </a>
+            
+            <button 
+              onClick={() => {
+                triggerHaptic();
+                setShowGallery(true);
+              }}
+              className={cn(
+                "flex flex-col items-center justify-center gap-2.5 aspect-[5/3] rounded-[20px] shadow-sm transition-all active:scale-95 border",
+                isDarkMode ? "bg-amber-500/10 text-amber-400 border-amber-500/20" : "bg-amber-50 text-amber-600 border-amber-500/20"
+              )}
+            >
+              <Image size={22} className="opacity-90" />
+              <span className="text-[11px] font-bold tracking-wide">Gallery</span>
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Bio */}
+        <motion.div variants={fadeUp} className={cn('p-5 rounded-[24px] border shadow-sm', cardBg)}>
+          <h3 className="text-[12px] font-black uppercase tracking-widest mb-3 text-amber-500">About Me</h3>
+          <p className={cn('text-[14px] leading-relaxed', bodyColor)}>
+            Experienced Full-stack Developer with a passion for building scalable web applications and crafting intuitive UI/UX. Bridging the gap between robust backend logic and cinematic frontend experiences.
+          </p>
+        </motion.div>
+
+        {/* Social Links */}
+        <motion.div variants={fadeUp}>
+          <h3 className={cn('text-[12px] font-black uppercase tracking-widest mb-3', subColor)}>Connect</h3>
+          <div className="grid grid-cols-2 gap-2.5">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn('flex items-center gap-3 p-3.5 rounded-[18px] border transition-all active:scale-95 shadow-sm', cardBg)}
+              >
+                <div className={cn('w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-sm', link.color)}>
+                  <link.icon size={15} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className={cn('text-[12px] font-bold truncate', titleColor)}>{link.label}</p>
+                </div>
+                <ArrowUpRight size={13} className={subColor} />
+              </a>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Tech Stack Icons */}
+        <motion.div variants={fadeUp} className={cn('p-5 py-6 rounded-[24px] border shadow-sm', cardBg)}>
+          <h3 className="text-[12px] font-black uppercase tracking-widest mb-5 text-center text-teal-400">Tech Stack</h3>
+          <div className="flex flex-wrap justify-center gap-2">
+            {skills.map((skill, i) => (
+              <motion.div
+                key={skill.name}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.03, duration: 0.3 }}
+                className={cn(
+                  'flex items-center gap-1.5 px-3 py-2 rounded-full border text-[11px] font-semibold transition-colors',
+                  isDarkMode
+                    ? 'bg-zinc-900/60 border-white/10 text-white/80'
+                    : 'bg-zinc-100 border-black/8 text-zinc-700'
+                )}
+              >
+                <skill.icon size={14} className={cn('shrink-0', skill.color)} />
+                <span>{skill.name}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Education */}
+        <motion.div variants={fadeUp} className={cn('p-5 rounded-[24px] border shadow-sm', cardBg)}>
+          <h3 className="text-[12px] font-black uppercase tracking-widest mb-5 text-center text-blue-400">Education</h3>
+          {education.map((edu) => (
+            <div key={edu.id} className="flex items-start gap-4">
+              <div className={cn('w-12 h-12 rounded-[16px] flex items-center justify-center shrink-0 shadow-inner', isDarkMode ? 'bg-blue-500/15' : 'bg-blue-500/10')}>
+                <GraduationCap size={22} className="text-blue-500" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className={cn('text-[15px] font-black leading-tight', titleColor)}>{edu.institution}</h4>
+                <p className={cn('text-[13px] font-semibold mt-0.5', subColor)}>{edu.major}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className={cn('text-[10px] font-bold uppercase tracking-wider', subColor)}>{edu.period}</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/15 text-emerald-500 text-[9px] font-black uppercase tracking-wider rounded-full border border-emerald-500/20">
+                    {edu.status}
+                  </span>
+                </div>
+                <p className={cn('text-[12px] leading-relaxed mt-3', bodyColor)}>{edu.description}</p>
+                {edu.achievements && (
+                  <div className="space-y-1.5 mt-3">
+                    {edu.achievements.map((a, i) => (
+                      <div key={i} className="flex gap-2">
+                        <CheckCircle size={12} className="text-blue-500 shrink-0 mt-[2px]" />
+                        <span className={cn('text-[11px] leading-relaxed', bodyColor)}>{a}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Certificates */}
+        <motion.div variants={fadeUp}>
+          <h3 className={cn('text-[12px] font-black uppercase tracking-widest mb-3', subColor)}>Certificates</h3>
+          <div className="space-y-3">
+            {certificates.map((cert) => {
+              const CardWrapper = cert.file ? 'a' : 'div';
+              const wrapperProps = cert.file ? { href: cert.file, target: '_blank', rel: 'noopener noreferrer' } : {};
+              return (
+                <CardWrapper key={cert.id} {...wrapperProps} className={cn('p-4 rounded-[20px] border shadow-sm flex items-center gap-4 active:scale-[0.98] transition-transform block', cardBg)}>
+                  <div className={cn(
+                    'w-11 h-11 rounded-[14px] flex items-center justify-center shrink-0 shadow-inner',
+                    cert.type === 'education' ? (isDarkMode ? 'bg-amber-500/15' : 'bg-amber-500/10') :
+                    cert.type === 'internship' ? (isDarkMode ? 'bg-emerald-500/15' : 'bg-emerald-500/10') :
+                    cert.type === 'language' ? (isDarkMode ? 'bg-purple-500/15' : 'bg-purple-500/10') :
+                    (isDarkMode ? 'bg-blue-500/15' : 'bg-blue-500/10')
+                  )}>
+                    {cert.type === 'education' ? <Award size={18} className="text-amber-500" /> :
+                     cert.type === 'internship' ? <Briefcase size={18} className="text-emerald-500" /> :
+                     cert.type === 'language' ? <Award size={18} className="text-purple-500" /> :
+                     <FileCheck size={18} className="text-blue-500" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className={cn('text-[13px] font-bold truncate', titleColor)}>{cert.title}</h4>
+                    <p className={cn('text-[11px] font-medium mt-0.5', subColor)}>{cert.issuer} · {cert.date}</p>
+                  </div>
+                  <ArrowUpRight size={14} className={subColor} />
+                </CardWrapper>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* Testimonials */}
+        <motion.div variants={fadeUp}>
+          <h3 className={cn('text-[12px] font-black uppercase tracking-widest mb-3', subColor)}>Testimonials</h3>
+          <div className="-mx-6 px-6 overflow-x-auto no-scrollbar">
+            <div className="flex gap-3" style={{ width: 'max-content' }}>
+              {testimonials.map((t) => (
+                <div
+                  key={t.id}
+                  className={cn(
+                    'w-[280px] p-5 rounded-[24px] border shadow-sm flex flex-col gap-3 shrink-0 snap-start',
+                    cardBg
+                  )}
+                >
+                  {/* Quote icon */}
+                  <Quote size={20} className={cn(isDarkMode ? 'text-white/15' : 'text-black/10')} />
+                  
+                  {/* Text */}
+                  <p className={cn('text-[13px] leading-relaxed italic flex-1', bodyColor)}>
+                    "{t.text}"
+                  </p>
+
+                  {/* Stars */}
+                  <div className="flex gap-0.5">
+                    {Array.from({ length: t.rating }).map((_, i) => (
+                      <Star key={i} size={12} className="text-amber-400 fill-amber-400" />
+                    ))}
+                  </div>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-3 pt-2 border-t border-dashed" style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }}>
+                    <div className={cn(
+                      'w-9 h-9 rounded-full flex items-center justify-center text-[13px] font-black shrink-0',
+                      isDarkMode ? 'bg-white/10 text-white/60' : 'bg-black/5 text-zinc-600'
+                    )}>
+                      {t.name.charAt(0)}
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className={cn('text-[12px] font-bold truncate', titleColor)}>{t.name}</h4>
+                      <p className={cn('text-[10px] font-medium truncate', subColor)}>{t.role} · {t.company}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Experience Timeline */}
+        <motion.div variants={fadeUp} className="pt-2">
+          <h3 className={cn('text-[12px] font-black uppercase tracking-widest mb-4', subColor)}>Experience</h3>
+          <div className="space-y-4">
+            {experience.map((exp) => (
+              <div key={exp.id} className={cn('p-5 rounded-[24px] border shadow-sm', cardBg)}>
+                <div className="flex items-start gap-4 mb-3">
+                  <div className={cn('w-10 h-10 rounded-[14px] flex items-center justify-center shrink-0 shadow-inner', isDarkMode ? 'bg-blue-500/15' : 'bg-blue-500/10')}>
+                    <Briefcase size={18} className="text-blue-500" />
+                  </div>
+                  <div>
+                    <p className={cn('text-[10px] font-black uppercase tracking-widest mb-0.5', subColor)}>{exp.date}</p>
+                    <h3 className={cn('text-[15px] font-black leading-tight', titleColor)}>{exp.title}</h3>
+                    <p className={cn('text-[13px] font-medium mt-0.5', subColor)}>{exp.company} · {exp.role}</p>
+                  </div>
+                </div>
+                <p className={cn('text-[13px] leading-relaxed mb-3', bodyColor)}>{exp.description}</p>
+                <div className="space-y-2">
+                  {exp.bullets.map((bullet, bIdx) => (
+                    <div key={bIdx} className="flex gap-2">
+                      <CheckCircle size={14} className="text-blue-500 shrink-0 mt-[1px]" />
+                      <span className={cn('text-[12px] leading-relaxed', bodyColor)}>{bullet}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+      </motion.div>
+
+      {/* Copy Link Popup Toast (Portaled out of transformed containers) */}
+      {isMounted && document.body && createPortal(
+        <AnimatePresence>
+          {isCopied && (
+            <motion.div
+              initial={{ opacity: 0, y: -50, scale: 0.9, x: '-50%' }}
+              animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
+              exit={{ opacity: 0, y: -20, scale: 0.9, x: '-50%' }}
+              className={cn(
+                "fixed top-[40px] left-1/2 px-5 py-3 rounded-full flex items-center gap-2.5 shadow-2xl z-[9999] border whitespace-nowrap",
+                isDarkMode ? "bg-[#1f1f1f] text-white border-white/10" : "bg-white text-zinc-900 border-black/10"
+              )}
+            >
+              <CheckCircle size={18} className="text-emerald-500" />
+              <span className="text-[13px] font-bold">Link berhasil dicopy!</span>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+
+      {/* Gallery Lightbox */}
+      <AnimatePresence>
+        {showGallery && (
+          <MobileGallery onClose={() => setShowGallery(false)} />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

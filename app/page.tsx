@@ -1,69 +1,170 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Toaster } from 'sonner';
+
+import dynamic from 'next/dynamic';
+
+import BootScreen from '../src/components/os/BootScreen';
+import Desktop from '../src/components/os/Desktop';
+import Window from '../src/components/os/Window';
+
+import { useOSStore } from '../src/core/store/useOSStore';
+import { useSound } from '../src/core/hooks/useSound';
+
+const WindowLoading = () => (
+  <div className="flex flex-col items-center justify-center h-full w-full min-h-[300px] gap-2">
+    <div className="w-6 h-6 border-2 border-[var(--color-accent)]/30 border-t-[var(--color-accent)] rounded-full animate-spin" />
+    <span className="text-[11px] font-mono text-white/40 tracking-wider">Loading...</span>
+  </div>
+);
+
+const Terminal = dynamic(() => import('../src/components/os/Terminal'), { loading: WindowLoading });
+const AboutThisMac = dynamic(() => import('../src/components/os/AboutThisMac'), { loading: WindowLoading });
+const Finder = dynamic(() => import('../src/components/os/Finder'), { loading: WindowLoading });
+const Notes = dynamic(() => import('../src/components/os/Notes'), { loading: WindowLoading });
+const Mail = dynamic(() => import('../src/components/os/Mail'), { loading: WindowLoading });
+const Preview = dynamic(() => import('../src/components/os/Preview'), { loading: WindowLoading });
+const Settings = dynamic(() => import('../src/components/os/Settings'), { loading: WindowLoading });
+const Spotlight = dynamic(() => import('../src/components/os/Spotlight'), { ssr: false });
+const MobileOS = dynamic(() => import('../src/components/mobile/MobileOS'), { ssr: false });
 
 export default function Home() {
+  const { isBooted, isDarkMode, openApps, toggleSpotlight, accentColor } = useOSStore();
+  const { playSound } = useSound();
+
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    document.documentElement.classList.toggle('dark', isDarkMode);
+  }, [isDarkMode, mounted]);
+
+  // Sync Accent Color to CSS Variables
+  useEffect(() => {
+    if (!mounted) return;
+    document.documentElement.style.setProperty('--color-accent', accentColor);
+    document.documentElement.style.setProperty('--color-accent-glow', `${accentColor}33`);
+  }, [accentColor, mounted]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        toggleSpotlight();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleSpotlight]);
+
+  useEffect(() => {
+    if (isMobile) return;
+    const handleGlobalClick = () => {
+      playSound('click', 0.4);
+    };
+
+    window.addEventListener('click', handleGlobalClick);
+    return () => window.removeEventListener('click', handleGlobalClick);
+  }, [playSound, isMobile]);
+
+  useEffect(() => {
+    if (isBooted && !isMobile) {
+      playSound('chime', 0.8);
+    }
+  }, [isBooted, playSound, isMobile]);
+
+  const renderAppContent = (id: string) => {
+    switch (id) {
+      case 'terminal':
+        return <Terminal />;
+      case 'about':
+        return <AboutThisMac />;
+      case 'projects':
+        return <Finder />;
+      case 'experience':
+        return <Notes />;
+      case 'contact':
+        return <Mail />;
+      case 'preview':
+        return <Preview />;
+      case 'settings':
+        return <Settings />;
+      default:
+        return null;
+    }
+  };
+
+  const getAppTitle = (id: string) => {
+    switch (id) {
+      case 'terminal':
+        return 'terminal — zsh — 80×24';
+      case 'about':
+        return 'About Me';
+      case 'projects':
+        return 'Projects — Finder';
+      case 'experience':
+        return 'Notes — Experience';
+      case 'contact':
+        return 'Mail — Compose New';
+      case 'preview':
+        return 'Preview — cv-muhammad-ditto.pdf';
+      default:
+        return id.charAt(0).toUpperCase() + id.slice(1);
+    }
+  };
+
+  if (!mounted) {
+    return <div className="h-screen w-full bg-black overflow-hidden select-none" />;
+  }
+
+  if (isMobile) {
+    return <MobileOS />;
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="h-screen w-full bg-black overflow-hidden select-none">
+      <Toaster position="bottom-right" theme={isDarkMode ? 'dark' : 'light'} />
+
+      {/* Spotlight Overlay */}
+      <Spotlight />
+
+      <AnimatePresence mode="wait">
+        {!isBooted ? (
+          <BootScreen key="boot" />
+        ) : (
+          <motion.div
+            key="desktop-v2"
+            initial={{ opacity: 0, filter: 'blur(20px)', scale: 0.98 }}
+            animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
+            transition={{
+              duration: 2.5,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.3,
+            }}
+            className="h-full w-full"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            <Desktop key="desktop">
+              {openApps.map((appId) => (
+                <Window key={appId} id={appId} title={getAppTitle(appId)}>
+                  {renderAppContent(appId)}
+                </Window>
+              ))}
+            </Desktop>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
