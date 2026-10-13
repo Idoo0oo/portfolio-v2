@@ -18,27 +18,40 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mhmmditto.vercel.app"),
+  metadataBase: new URL("https://mhmmditto.my.id"),
   title: "Muhammad Ditto | Full-Stack Creative Developer",
   description:
     "Portfolio of Muhammad Ditto (Ido) — Full-stack developer building interactive digital experiences with React, Three.js, and Node.js. Based in Tangerang, Indonesia.",
-  authors: [{ name: "Muhammad Ditto" }],
+  authors: [{ name: "Muhammad Ditto", url: "https://mhmmditto.my.id" }],
   keywords: [
     "Muhammad Ditto",
+    "Muhammad Ditto Portfolio",
     "Ido",
+    "mhmmditto",
     "creative developer",
-    "full-stack",
+    "full-stack developer",
     "React Native",
     "Next.js",
+    "Three.js",
     "Portfolio",
     "Tangerang",
     "Indonesia",
-    "web developer",
+    "web developer Indonesia",
     "software engineer",
   ],
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   alternates: {
-    canonical: "https://mhmmditto.vercel.app/",
+    canonical: "https://mhmmditto.my.id/",
   },
   icons: {
     icon: "/favicon.svg",
@@ -52,12 +65,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://mhmmditto.vercel.app/",
+    url: "https://mhmmditto.my.id/",
     title: "Muhammad Ditto | Full-Stack Creative Developer",
     description:
       "Explore the interactive portfolio of Muhammad Ditto — a creative full-stack developer crafting immersive digital experiences with React, Three.js, and modern web technologies.",
     siteName: "Muhammad Ditto Portfolio",
-    locale: "en_US",
+    locale: "id_ID",
     images: [
       {
         url: "/og-image.png",
@@ -81,18 +94,26 @@ const jsonLdPerson = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Muhammad Ditto",
-  alternateName: "Ido",
-  url: "https://mhmmditto.vercel.app",
-  image: "https://mhmmditto.vercel.app/github-avatar.jpg",
+  alternateName: ["Ido", "mhmmditto"],
+  url: "https://mhmmditto.my.id",
+  image: "https://mhmmditto.my.id/github-avatar.jpg",
   jobTitle: "Full-Stack Creative Developer",
+  worksFor: {
+    "@type": "Organization",
+    name: "Independent / Freelance",
+  },
   knowsAbout: [
+    "Web Development",
+    "Full-Stack Development",
     "React",
     "Next.js",
     "TypeScript",
     "Node.js",
     "Three.js",
+    "Tailwind CSS",
     "React Native",
     "Flutter",
+    "UI/UX Design",
   ],
   sameAs: [
     "https://github.com/Idoo0oo",
@@ -110,9 +131,9 @@ const jsonLdWebSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Muhammad Ditto Portfolio",
-  url: "https://mhmmditto.vercel.app",
+  url: "https://mhmmditto.my.id",
   description:
-    "Interactive portfolio of Muhammad Ditto, a creative full-stack developer based in Tangerang, Indonesia.",
+    "Interactive macOS & iOS style portfolio of Muhammad Ditto, a creative full-stack developer based in Tangerang, Indonesia.",
 };
 
 export default function RootLayout({

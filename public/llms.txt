@@ -1,0 +1,36 @@
+# Muhammad Ditto (Ido) - Full-Stack Creative Developer
+
+> Portfolio and profile of Muhammad Ditto, a full-stack creative developer building modern interactive digital experiences, web apps, and mobile solutions based in Tangerang, Indonesia.
+
+## Profile Summary
+- **Name**: Muhammad Ditto
+- **Nickname**: Ido / Ditto
+- **Role**: Full-Stack Creative Developer / Software Engineer
+- **Location**: Tangerang, Banten, Indonesia
+- **Website**: https://mhmmditto.my.id
+- **GitHub**: https://github.com/Idoo0oo
+- **LinkedIn**: https://linkedin.com/in/muhammad-ditto
+- **Instagram**: https://instagram.com/mhmmdittoo._
+
+## Core Technical Skills
+- **Frontend**: React, Next.js (App Router), TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Framer Motion, Three.js, React Three Fiber.
+- **Backend & Database**: Node.js, Express, RESTful APIs, MySQL, PostgreSQL, MongoDB, Prisma.
+- **Mobile Development**: React Native, Flutter.
+- **Tools & DevOps**: Git, GitHub, Vercel, Docker, Postman, Vite.
+
+## Featured Projects
+1. **DML ERP System (PT Duta Mandiri Logistik)**:
+   - Enterprise Resource Planning system for logistics and freight forwarding.
+   - Features: Multi-branch shipment tracking, dynamic invoicing, automated billing, fleet management, and operational analytics.
+2. **Company Profile PT Duta Mandiri Logistik**:
+   - Corporate identity website featuring company services, international shipping calculator, and client testimonial hub.
+3. **Smart Self-Order Restaurant App**:
+   - Modern restaurant point-of-sale and QR table ordering application with real-time kitchen display and invoice printing.
+
+## Certifications & Education
+- **Sertifikat Kompetensi Rekayasa Perangkat Lunak (Software Engineering)**: Certified competence in software development and database design.
+- **TOEIC (Test of English for International Communication)**: Official English proficiency certification.
+
+## Contact & Hire
+- **Website**: https://mhmmditto.my.id
+- **Email Contact**: Available directly via the macOS Mail app / contact form on https://mhmmditto.my.id
